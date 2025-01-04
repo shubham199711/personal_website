@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
 import { tomorrow } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { useState } from "react";
 
 const Container = styled.div`
   display: flex;
@@ -8,12 +9,14 @@ const Container = styled.div`
   justify-content: center;
   gap: 20px;
   height: 100%;
-  padding: 20px;
   background-color: #1e1e1e;
+  flex-wrap: wrap;
+  overflow: auto;
+  max-width: 350px;
 `;
 
 const Card = styled.div`
-  width: 400px;
+  width: 300px;
   background-color: #f5f5f5;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -28,22 +31,49 @@ const Title = styled.h3`
   color: white;
   text-align: center;
   font-size: 18px;
+  cursor: pointer;
 `;
 
 const CodeBlock = styled.div`
   padding: 16px;
   background-color: #f5f5f5;
+  flex: 1;
   pre {
     background: #f5f5f5 !important;
   }
 `;
 
+const Header = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1e1e1e;
+  padding: 1rem 2rem;
+  margin-bottom: 2rem;
+  color: white;
+`;
+
 const HeaderTitle = styled.h1`
   font-size: 2rem;
+  margin: 0;
   text-align: center;
+`;
+
+const SelectedTemplate = styled.div`
+  font-size: 1.2rem;
+  color: #4caf50;
+  text-align: center;
+`;
+
+const TemplateBody = styled.div`
+  padding: 1rem 2rem;
   background-color: #1e1e1e;
-  margin: 2rem 0;
-  padding-bottom: 0.25rem;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  height: 100vh;
+  align-items: start;
 `;
 
 const templates = [
@@ -97,22 +127,37 @@ const templates = [
   },
 ];
 
-const Leetcode = () => (
-  <>
-    <HeaderTitle>Templates</HeaderTitle>
-    <Container>
-      {templates.map((template, index) => (
-        <Card key={index}>
-          <Title>{template.title}</Title>
-          <CodeBlock>
-            <SyntaxHighlighter language="python" style={tomorrow}>
-              {template.code}
-            </SyntaxHighlighter>
-          </CodeBlock>
-        </Card>
-      ))}
-    </Container>
-  </>
-);
+const Leetcode = () => {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const handleCardClick = (index: number) => {
+    setSelectedIndex(index);
+  };
+
+  return (
+    <>
+      <Header>
+        <HeaderTitle>Templates</HeaderTitle>
+      </Header>
+      <SelectedTemplate>
+        Selected: {templates[selectedIndex].title}
+      </SelectedTemplate>
+      <TemplateBody>
+        <Container>
+          {templates.map((template, index) => (
+            <Card key={index} onClick={() => handleCardClick(index)}>
+              <Title>{template.title}</Title>
+            </Card>
+          ))}
+        </Container>
+        <CodeBlock>
+          <SyntaxHighlighter language="python" style={tomorrow}>
+            {templates[selectedIndex].code}
+          </SyntaxHighlighter>
+        </CodeBlock>
+      </TemplateBody>
+    </>
+  );
+};
 
 export default Leetcode;
