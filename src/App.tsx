@@ -17,6 +17,7 @@ function App() {
         <Route path="/leetcode" element={<Leetcode />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/project" element={<Project />} />
+        <Route path="*" element={<Home />} />
       </Routes>
     </>
   );
