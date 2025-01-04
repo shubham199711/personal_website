@@ -4,6 +4,8 @@ const PageContainer = styled.div`
   font-family: Arial, sans-serif;
   margin: 2rem auto;
   max-width: 800px;
+  background-color: #1e1e1e;
+  color: white;
 `;
 
 const Section = styled.div`
@@ -12,7 +14,7 @@ const Section = styled.div`
 
 const SectionTitle = styled.h2`
   font-size: 1.5rem;
-  color: #333;
+  color: #fff;
   margin-bottom: 0.5rem;
   border-bottom: 2px solid #ddd;
   padding-bottom: 0.25rem;
@@ -22,6 +24,7 @@ const Paragraph = styled.p`
   font-size: 1rem;
   color: #555;
   margin: 0.5rem 0;
+  color: white;
 `;
 
 const List = styled.ul`
@@ -32,7 +35,7 @@ const List = styled.ul`
 
 const ListItem = styled.li`
   font-size: 1rem;
-  color: #555;
+  color: #ddd;
   margin-bottom: 0.5rem;
 `;
 
@@ -47,7 +50,7 @@ const Link = styled.a`
 
 const HeaderTitle = styled.h1`
   font-size: 2rem;
-  color: #333;
+  color: #fff;
   text-align: center;
   margin: 2rem 0;
   padding-bottom: 0.25rem;

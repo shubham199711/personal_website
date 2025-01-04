@@ -5,7 +5,7 @@ const ResumeContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   padding: 40px 150px;
-  background-color: #1e1e1e;
+  background-color: #1e1e1e !important;
   color: white;
   height: 100%;
   font-family: Arial, sans-serif;
