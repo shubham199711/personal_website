@@ -60,7 +60,27 @@ const Contact = () => {
   return (
     <PageContainer>
       <HeaderTitle>Contact Me</HeaderTitle>
+      <Section>
+        <SectionTitle>Summary</SectionTitle>
+        <Paragraph>
+          Senior Software Engineer with 5+ years of experience in backend
+          development, machine learning, and leading software projects. Skilled
+          in designing scalable systems and delivering innovative solutions that
+          improve efficiency and client outcomes.
+        </Paragraph>
+      </Section>
 
+      <Section>
+        <SectionTitle>Languages</SectionTitle>
+        <List>
+          <ListItem>
+            <strong>English:</strong> Proficient
+          </ListItem>
+          <ListItem>
+            <strong>Hindi:</strong> Native
+          </ListItem>
+        </List>
+      </Section>
       <Section>
         <SectionTitle>Personal Information</SectionTitle>
         <Paragraph>
@@ -106,42 +126,6 @@ const Contact = () => {
             github.com/shubham199711
           </Link>
         </Paragraph>
-      </Section>
-
-      <Section>
-        <SectionTitle>Summary</SectionTitle>
-        <Paragraph>
-          Senior Software Engineer with 5+ years of experience in backend
-          development, machine learning, and leading software projects. Skilled
-          in designing scalable systems and delivering innovative solutions that
-          improve efficiency and client outcomes.
-        </Paragraph>
-      </Section>
-
-      <Section>
-        <SectionTitle>Languages</SectionTitle>
-        <List>
-          <ListItem>
-            <strong>English:</strong> Proficient
-          </ListItem>
-          <ListItem>
-            <strong>Hindi:</strong> Native
-          </ListItem>
-        </List>
-      </Section>
-
-      <Section>
-        <SectionTitle>Achievements</SectionTitle>
-        <List>
-          <ListItem>
-            Solved 500+ problems on LeetCode, demonstrating strong proficiency
-            in problem-solving, data structures, and algorithms.
-          </ListItem>
-          <ListItem>
-            Successfully developed and delivered multiple projects on time while
-            leading teams and ensuring client satisfaction.
-          </ListItem>
-        </List>
       </Section>
     </PageContainer>
   );

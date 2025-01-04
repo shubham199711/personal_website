@@ -202,6 +202,24 @@ const Resume = () => {
           />
         </WorkExperience>
       </Section>
+      <Divider />
+      <Section>
+        <SectionTitle>Achievements</SectionTitle>
+        <WorkExperience>
+          <JobComponent
+            startYear="2015"
+            endYear="Present"
+            title="Achievements"
+            descriptions={[
+              "Solved 500+ problems on LeetCode, demonstrating strong proficiency in problem-solving, data structures, and algorithms.",
+              "Successfully developed and delivered multiple projects on time while leading teams and ensuring client satisfaction.",
+              "Won 1st Prize in College Project Competition for an ML project predicting sentiment using Amazon product reviews.",
+              "Developed 'Micro-habits' app with 100k+ downloads and 5k+ daily active users.",
+              "Designed and implemented scalable systems delivering speed and efficiency improvements of up to 20X.",
+            ]}
+          />
+        </WorkExperience>
+      </Section>
     </ResumeContainer>
   );
 };

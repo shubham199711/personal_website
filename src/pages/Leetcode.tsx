@@ -49,7 +49,6 @@ const Header = styled.div`
   align-items: center;
   background-color: #1e1e1e;
   padding: 1rem 2rem;
-  margin-bottom: 2rem;
   color: white;
 `;
 
