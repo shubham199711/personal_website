@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { line } from "../../node_modules/@types/stylis/index.d";
 
 const ProjectsContainer = styled.div`
   background-color: #121212; // Dark background
