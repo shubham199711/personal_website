@@ -12,6 +12,7 @@ const ProfileContainer = styled.div`
   @media (max-width: 768px) {
     flex-direction: column;
     height: 100%;
+    padding: 10vh 5vw;
   }
 `;
 
@@ -52,6 +53,7 @@ const ProfileButtons = styled.div`
   display: flex;
   gap: 15px;
   justify-content: left;
+  flex-wrap: wrap;
 `;
 
 const ProfileButton = styled.a`

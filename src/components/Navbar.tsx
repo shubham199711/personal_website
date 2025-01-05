@@ -86,7 +86,6 @@ const MobileNav = styled.ul`
 const NavBar = () => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const isMobile = useMediaQuery("(max-width: 767px)");
-  console.log(isMobile);
   const navRef = useRef(null);
 
   const handleClickOutside = useCallback(
