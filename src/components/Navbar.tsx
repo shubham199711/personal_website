@@ -11,7 +11,7 @@ const Nav = styled.nav`
   padding: 1rem;
   @media (max-width: 767px) {
     justify-content: space-between;
-    padding: 1rem 3vw !important;
+    padding: 1rem 4vw !important;
   }
 `;
 
@@ -50,6 +50,7 @@ const MobileNavToggle = styled.button`
   font-size: 1.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  padding: 0;
 
   &:hover {
     color: #bada55;
