@@ -1,20 +1,23 @@
 import styled from "styled-components";
 
 const ProjectsContainer = styled.div`
-  background-color: #121212; // Dark background
+  background-color: #121212;
   color: white;
   padding: 20px;
   font-family: Arial, sans-serif;
   padding: 50px 120px;
 
   @media (max-width: 768px) {
-    padding: 10px;
+    padding: 5vh 5vw;
   }
 `;
 
 const Title = styled.h1`
   font-size: 36px;
   margin-bottom: 20px;
+  @media (max-width: 768px) {
+    text-align: center;
+  }
 `;
 
 const Project = styled.div`
@@ -23,7 +26,8 @@ const Project = styled.div`
   margin-bottom: 40px;
 
   @media (max-width: 768px) {
-    flex-direction: column;
+    flex-direction: column-reverse;
+    margin-top: 40px;
   }
 `;
 
@@ -33,8 +37,10 @@ const ProjectContent = styled.div`
 
   @media (max-width: 768px) {
     padding-right: 0;
-    text-align: center;
+    text-align: left;
     margin-bottom: 20px;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
   }
 `;
 
@@ -52,6 +58,9 @@ const ProjectImage = styled.img`
   width: 300px;
   height: auto;
   border-radius: 8px;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const ProjectLink = styled.a`
@@ -88,41 +97,41 @@ const ProjectCard = ({
   );
 };
 
-const Projects = () => {
-  const projects = [
-    {
-      title: "Code Type",
-      description:
-        "A website where programmers can practice typing code faster and remember codes",
-      imageSrc: "/type_code.png",
-      imageAlt: "Code Type",
-      link: "https://type-code-ten.vercel.app/",
-    },
-    {
-      title: "Sentiment Analysis",
-      description:
-        "Won 1st Prize in College Project Competition with an ML project using Amazon product review comments as a dataset to predict comment sentiment.",
-      imageSrc: "/samantic.jpg",
-      imageAlt: "Sentiment Analysis",
-    },
-    {
-      title: "One Link",
-      description:
-        "A project developed using React and Golang to create a single link for Android and Apple stores that redirects users based on their device.",
-      imageSrc: "/one_link.png",
-      imageAlt: "One Link",
-      link: "https://github.com/shubham199711/one_link",
-    },
-    {
-      title: "Hacking TCC",
-      description:
-        "Developed a patch for the TCC compiler, simplifying C programming by enabling automatic struct dereferencing.",
-      imageSrc: "hacking_tcc.jpeg",
-      imageAlt: "Hacking TCC",
-      link: "https://github.com/shubham199711/hacking_tcc_for_auto_def_on_struct",
-    },
-  ];
+const projects = [
+  {
+    title: "Code Type",
+    description:
+      "A website where programmers can practice typing code faster and remember codes",
+    imageSrc: "/type_code.png",
+    imageAlt: "Code Type",
+    link: "https://type-code-ten.vercel.app/",
+  },
+  {
+    title: "Sentiment Analysis",
+    description:
+      "Won 1st Prize in College Project Competition with an ML project using Amazon product review comments as a dataset to predict comment sentiment.",
+    imageSrc: "/samantic.jpg",
+    imageAlt: "Sentiment Analysis",
+  },
+  {
+    title: "One Link",
+    description:
+      "A project developed using React and Golang to create a single link for Android and Apple stores that redirects users based on their device.",
+    imageSrc: "/one_link.png",
+    imageAlt: "One Link",
+    link: "https://github.com/shubham199711/one_link",
+  },
+  {
+    title: "Hacking TCC",
+    description:
+      "Developed a patch for the TCC compiler, simplifying C programming by enabling automatic struct dereferencing.",
+    imageSrc: "hacking_tcc.jpeg",
+    imageAlt: "Hacking TCC",
+    link: "https://github.com/shubham199711/hacking_tcc_for_auto_def_on_struct",
+  },
+];
 
+const Projects = () => {
   return (
     <ProjectsContainer>
       <Title>Projects</Title>

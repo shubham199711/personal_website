@@ -157,7 +157,7 @@ const Leetcode = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div style={{ display: "flex", flexDirection: "column", padding: "5vh 0" }}>
       <Header>
         <HeaderTitle>Templates</HeaderTitle>
       </Header>
