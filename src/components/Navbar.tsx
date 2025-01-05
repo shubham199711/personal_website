@@ -1,5 +1,6 @@
-import React from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import styled from "styled-components";
+import useMediaQuery from "../hooks/useMediaQuery";
 
 const Nav = styled.nav`
   display: flex;
@@ -8,6 +9,9 @@ const Nav = styled.nav`
   background-color: #333;
   color: #fff;
   padding: 1rem;
+  @media (max-width: 767px) {
+    justify-content: space-between;
+  }
 `;
 
 const NavItem = styled.li`
@@ -75,19 +79,62 @@ const MobileNav = styled.ul`
   padding: 0;
 
   @media (max-width: 767px) {
-    display: flex;
+    gap: 10px;
   }
 `;
 
 const NavBar = () => {
-  const [isMobileNavOpen, setIsMobileNavOpen] = React.useState(false);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 767px)");
+  console.log(isMobile);
+  const navRef = useRef(null);
+
+  const handleClickOutside = useCallback(
+    (event: MouseEvent) => {
+      if (
+        isMobileNavOpen &&
+        navRef.current &&
+        !(navRef.current as HTMLElement).contains(event.target as Node)
+      ) {
+        setIsMobileNavOpen(!isMobileNavOpen);
+      }
+    },
+    [isMobileNavOpen]
+  );
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [handleClickOutside]);
 
   return (
-    <Nav>
-      <Logo href="/">{"<Shubham Dohare/>"}</Logo>
-      <MobileNavToggle onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}>
-        {isMobileNavOpen ? "Close" : "Menu"}
-      </MobileNavToggle>
+    <Nav
+      ref={navRef}
+      style={{ justifyContent: isMobileNavOpen ? "center" : "space-between" }}
+    >
+      {!isMobileNavOpen && <Logo href="/">{"<Shubham Dohare/>"}</Logo>}
+      {isMobile && !isMobileNavOpen && (
+        <MobileNavToggle onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </MobileNavToggle>
+      )}
+
       <DesktopNav>
         <NavItem>
           <a href="/resume">Resume</a>
@@ -106,6 +153,9 @@ const NavBar = () => {
         </NavItem>
       </DesktopNav>
       <MobileNav style={{ display: isMobileNavOpen ? "flex" : "none" }}>
+        <NavItem>
+          <a href="/">Home</a>
+        </NavItem>
         <NavItem>
           <a href="/resume">Resume</a>
         </NavItem>
