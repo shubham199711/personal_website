@@ -5,7 +5,6 @@ import { useState } from "react";
 
 const Container = styled.div`
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
   height: 100%;
@@ -13,15 +12,27 @@ const Container = styled.div`
   flex-wrap: wrap;
   overflow: auto;
   max-width: 350px;
+  @media (max-width: 768px) {
+    flex-direction: row !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex-wrap: nowrap !important;
+    justify-content: start !important;
+  }
 `;
 
 const Card = styled.div`
   width: 300px;
+
   background-color: #f5f5f5;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+
+  @media (max-width: 768px) {
+    min-width: 300px;
+    height: 100%;
+  }
 `;
 
 const Title = styled.h3`
@@ -40,6 +51,13 @@ const CodeBlock = styled.div`
   flex: 1;
   pre {
     background: #f5f5f5 !important;
+  }
+  @media (max-width: 768px) {
+    padding: 0;
+    width: 100%;
+    pre {
+      overflow: auto;
+    }
   }
 `;
 
@@ -73,6 +91,11 @@ const TemplateBody = styled.div`
   gap: 1rem;
   height: 100vh;
   align-items: start;
+  @media (max-width: 768px) {
+    padding: 5vh 5vw !important;
+    flex-direction: column;
+    height: 100%;
+  }
 `;
 
 const templates = [
@@ -134,7 +157,7 @@ const Leetcode = () => {
   };
 
   return (
-    <>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <Header>
         <HeaderTitle>Templates</HeaderTitle>
       </Header>
@@ -155,7 +178,7 @@ const Leetcode = () => {
           </SyntaxHighlighter>
         </CodeBlock>
       </TemplateBody>
-    </>
+    </div>
   );
 };
 
