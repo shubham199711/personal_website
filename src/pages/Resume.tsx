@@ -9,6 +9,9 @@ const ResumeContainer = styled.div`
   color: white;
   height: 100%;
   font-family: Arial, sans-serif;
+  @media (max-width: 768px) {
+    padding: 5vh 5vw;
+  }
 `;
 
 const ResumeTitle = styled.h1`
@@ -34,6 +37,10 @@ const Job = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
+
+  @media (max-width: 768px) {
+    gap: 0;
+  }
 `;
 
 const JobYear = styled.div`
@@ -54,6 +61,9 @@ const JobHeader = styled.div`
   flex-direction: row;
   justify-content: start;
   gap: 10px;
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+  }
 `;
 
 const JobDescription = styled.p`
@@ -64,6 +74,13 @@ const JobDescription = styled.p`
   ul {
     padding: 0 0 0 14px;
   }
+  @media (max-width: 768px) {
+    margin: 0;
+    width: 100%;
+    li {
+      overflow-wrap: anywhere;
+    }
+  }
 `;
 
 const Section = styled.div`
@@ -72,6 +89,9 @@ const Section = styled.div`
   justify-content: space-between;
   gap: 10px;
   width: 100%;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const Divider = styled.div`
