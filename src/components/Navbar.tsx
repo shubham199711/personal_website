@@ -11,6 +11,7 @@ const Nav = styled.nav`
   padding: 1rem;
   @media (max-width: 767px) {
     justify-content: space-between;
+    padding: 1rem 3vw !important;
   }
 `;
 
