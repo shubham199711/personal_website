@@ -6,6 +6,9 @@ const PageContainer = styled.div`
   max-width: 800px;
   background-color: #1e1e1e;
   color: white;
+  @media (max-width: 768px) {
+    padding: 5vh 5vw;
+  }
 `;
 
 const Section = styled.div`
