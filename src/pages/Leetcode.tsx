@@ -43,6 +43,7 @@ const Title = styled.h3`
   text-align: center;
   font-size: 18px;
   cursor: pointer;
+  border-radius: 8px;
 `;
 
 const CodeBlock = styled.div`
