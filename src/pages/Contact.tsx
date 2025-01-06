@@ -93,9 +93,6 @@ const Contact = () => {
           <strong>Location:</strong> Maharashtra, India
         </Paragraph>
         <Paragraph>
-          <strong>Phone:</strong> +91 8668437022, +91 9405104910
-        </Paragraph>
-        <Paragraph>
           <strong>Email:</strong>{" "}
           <Link href="mailto:sdohare11@gmail.com">sdohare11@gmail.com</Link>
         </Paragraph>
