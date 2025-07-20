@@ -101,16 +101,30 @@ const Divider = styled.div`
   margin: 70px 0;
 `;
 
+const CompanyName = styled.div`
+  margin-left: 118px;
+  font-style: italic;
+  color: #aaa;
+  font-size: 0.95rem;
+  text-align: left;
+  @media (max-width: 768px) {
+    margin-left: 0;
+    text-align: left;
+  }
+`;
+
 const JobComponent = ({
   startYear,
   endYear,
   title,
+  company,
   descriptions,
 }: {
   startYear: string;
   endYear: string;
   title: string;
-  descriptions: string[]; // Accepts an array of strings
+  company: string;
+  descriptions: string[];
 }) => (
   <Job>
     <JobHeader>
@@ -123,6 +137,7 @@ const JobComponent = ({
         <span>{title}</span>
       </JobTitle>
     </JobHeader>
+    <CompanyName>{company}</CompanyName>
     <JobDescription>
       <ul>
         {descriptions.map((desc, index) => (
@@ -141,9 +156,22 @@ const Resume = () => {
         <SectionTitle>Work Experience</SectionTitle>
         <WorkExperience>
           <JobComponent
-            startYear="2023"
+            startYear="June 2025"
             endYear="Present"
+            title="Senior Full Stack Engineer - AI solutions"
+            company="Resilinc"
+            descriptions={[
+              "Migrating 70+ microservice from java 8 to java 21 using AI powered tools",
+              "Created internal tools for AI agents to get latest and correct version of library in new spring boot",
+              "Improved security of all microservices to be ready for .GOV environment.",
+            ]}
+          />
+
+          <JobComponent
+            startYear="2023"
+            endYear="June 2025"
             title="Senior Software Engineer"
+            company="Verantos"
             descriptions={[
               "Designed and implemented an accuracy system for ML models to monitor AI model improvements.",
               "Developed a system for creating study cohorts and subgroups, improving core application features and reducing query generation time by 5X.",
@@ -156,6 +184,7 @@ const Resume = () => {
             startYear="2021"
             endYear="2023"
             title="Software Engineer II"
+            company="Code Vyasa"
             descriptions={[
               "Led development of 8 backend projects as the backend lead.",
               "Automated CI/CD pipelines with Docker and GitHub Actions.",
@@ -168,6 +197,7 @@ const Resume = () => {
             startYear="2020"
             endYear="2021"
             title="Founder & CEO"
+            company="Infielight"
             descriptions={[
               "Built the 'Micro-habits' app based on the book Atomic Habits, achieving 100k+ downloads and 5k+ daily active users.",
               "Led product development using Flutter for Android and iOS platforms.",
@@ -178,6 +208,7 @@ const Resume = () => {
             startYear="2019"
             endYear="2020"
             title="Software Engineer"
+            company="Sarvaha System"
             descriptions={[
               "Served as a solo front-end engineer using React and SCSS, delivering a high-quality product with positive customer reviews.",
               "Led a front-end team on an Angular/Node.js project, ensuring project success and quality.",
@@ -193,6 +224,7 @@ const Resume = () => {
             startYear="2015"
             endYear="2019"
             title="Bachelor's in Computer Science Engineering"
+            company="P.R. Patil College of Engineering, Maharashtra, India"
             descriptions={[
               "Graduated from P.R. Patil College of Engineering, Maharashtra, India.",
               "Gained foundational knowledge in software development, data structures, and algorithms.",
@@ -209,6 +241,7 @@ const Resume = () => {
             startYear="2015"
             endYear="Present"
             title="Skills"
+            company=""
             descriptions={[
               "Programming Languages: Python, Java, Golang, JavaScript, TypeScript",
               "Frontend: React, Angular, Flutter, SCSS",
@@ -230,6 +263,7 @@ const Resume = () => {
             startYear="2015"
             endYear="Present"
             title="Achievements"
+            company=""
             descriptions={[
               "Solved 500+ problems on LeetCode, demonstrating strong proficiency in problem-solving, data structures, and algorithms.",
               "Successfully developed and delivered multiple projects on time while leading teams and ensuring client satisfaction.",
