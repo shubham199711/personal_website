@@ -161,7 +161,7 @@ const Resume = () => {
             title="Senior Full Stack Engineer - AI solutions"
             company="Resilinc"
             descriptions={[
-              "Migrating 70+ microservice from java 8 to java 21 using AI powered tools",
+              "Migrating 70+ microservice from java 8 to java 21 using AI powered tools moved timeline from year to 4 months",
               "Created internal tools for AI agents to get latest and correct version of library in new spring boot",
               "Improved security of all microservices to be ready for .GOV environment.",
             ]}
