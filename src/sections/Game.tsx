@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { GiKatana } from "react-icons/gi";
 
 const GameSection = styled.section`
   min-height: 500px;
@@ -29,10 +30,27 @@ const GameSection = styled.section`
 const Title = styled.h2`
   color: #00f3ff;
   font-size: 2.5rem;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   text-transform: uppercase;
   letter-spacing: 2px;
   text-align: center;
+`;
+
+const SantoryuIcon = styled.div`
+  display: inline-flex;
+  position: relative;
+  width: 45px;
+  height: 45px;
+  align-items: center;
+  justify-content: center;
+  margin-left: 15px;
+  vertical-align: -20%;
+
+  svg {
+    position: absolute;
+    color: #2ecc71;
+    font-size: 2.2rem;
+  }
 `;
 
 const QuoteText = styled.p`
@@ -272,9 +290,16 @@ const Game = () => {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '50px 0' }}>
-            <Title>Bug Hunter</Title>
+            <Title>
+                Bug Hunter
+                <SantoryuIcon>
+                    <GiKatana style={{ transform: 'rotate(0deg)', zIndex: 1 }} />
+                    <GiKatana style={{ transform: 'rotate(60deg)' }} />
+                    <GiKatana style={{ transform: 'rotate(-60deg)' }} />
+                </SantoryuIcon>
+            </Title>
             <QuoteText>
-                "There is always one more bug."
+                "System Status: Compromised. Initiate Purge."
             </QuoteText>
             <GameSection
                 ref={containerRef}
