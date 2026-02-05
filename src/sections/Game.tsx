@@ -54,6 +54,12 @@ const Score = styled.div`
   font-size: 1.5rem;
   font-family: monospace;
   z-index: 10;
+  
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    top: 15px;
+    right: 15px;
+  }
 `;
 
 const CustomCursor = styled(motion.div)`
@@ -81,6 +87,10 @@ const Bug = styled(motion.div)`
   user-select: none;
   z-index: 15;
   filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+  
+  @media (max-width: 768px) {
+    font-size: 28px;
+  }
 `;
 
 const Game = () => {
@@ -89,6 +99,7 @@ const Game = () => {
     // Use refs for positions to avoid re-rendering loop issues
     const mousePosRef = useRef({ x: 0, y: 0 });
     const bugPosRef = useRef({ x: 50, y: 50 }); // Pixels (will init on mount)
+    const velocityRef = useRef({ vx: 0, vy: 0 }); // Physics velocity
 
     // State for rendering
     const [bugRenderPos, setBugRenderPos] = useState({ x: 0, y: 0 });
@@ -109,6 +120,9 @@ const Game = () => {
             dist = Math.sqrt(dx * dx + dy * dy);
             attempts++;
         } while (dist < 200 && attempts < 10); // Retry if too close
+
+        // Reset velocity on spawn
+        velocityRef.current = { vx: 0, vy: 0 };
         return { x, y };
     };
 
@@ -159,6 +173,7 @@ const Game = () => {
 
             // Unpack positions
             let { x: currentBugX, y: currentBugY } = bugPosRef.current;
+            let { vx, vy } = velocityRef.current;
             const { x: mouseX, y: mouseY } = mousePosRef.current;
 
             // Calculate distance to cursor
@@ -166,53 +181,67 @@ const Game = () => {
             const dy = currentBugY - mouseY;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
-            // Evasion logic: Harder now
-            const safeDistance = 300; // Runs away sooner
-            const baseSpeed = 6; // Faster
-
-            const speedMultiplier = 1 + (score * 0.2); // Scales faster (was 0.15)
-            const moveSpeed = baseSpeed * speedMultiplier;
+            // Settings
+            const safeDistance = 350; // Radius where bug gets scared
+            const maxSpeed = 12 + (score * 0.5); // Max speed increases with score
+            const acceleration = 0.8; // How fast it accelerates away
+            const friction = 0.92; // Damping so it doesn't fly off forever
 
             if (distance < safeDistance && !caughtRef.current) {
-                // Normalize vector (run away)
-                let vx = dx / distance;
-                let vy = dy / distance;
+                // Run away vector
+                const dirX = dx / distance;
+                const dirY = dy / distance;
 
-                // Wall Avoidance Force
-                const wallDistance = 50;
-                const avoidanceForce = 2.0; // Strong push away from walls
-
-                if (currentBugX < wallDistance) vx += avoidanceForce;
-                if (currentBugX > rect.width - wallDistance) vx -= avoidanceForce;
-                if (currentBugY < wallDistance) vy += avoidanceForce;
-                if (currentBugY > rect.height - wallDistance) vy -= avoidanceForce;
-
-                // Normalize again with avoidance force
-                const vLen = Math.sqrt(vx * vx + vy * vy);
-                if (vLen > 0) {
-                    vx /= vLen;
-                    vy /= vLen;
-                }
-
-                // Move
-                currentBugX += vx * moveSpeed;
-                currentBugY += vy * moveSpeed; // Use modified vx/vy
-
-                // Hard Boundary Clamp
-                const margin = 20;
-                if (currentBugX < margin) currentBugX = margin;
-                if (currentBugX > rect.width - margin) currentBugX = rect.width - margin;
-                if (currentBugY < margin) currentBugY = margin;
-                if (currentBugY > rect.height - margin) currentBugY = rect.height - margin;
-
-            } else if (!caughtRef.current) {
+                // Apply force to velocity
+                vx += dirX * acceleration;
+                vy += dirY * acceleration;
+            } else {
                 // Jitter / Wander when safe
-                currentBugX += (Math.random() - 0.5) * 5; // More jitter
-                currentBugY += (Math.random() - 0.5) * 5;
+                if (Math.random() < 0.05) {
+                    vx += (Math.random() - 0.5) * 2;
+                    vy += (Math.random() - 0.5) * 2;
+                }
             }
 
-            // Check collision (Catch) - Harder
-            if (distance < 30 && !caughtRef.current) {
+            // Apply Velocity
+            vx *= friction; // Friction
+            vy *= friction;
+
+            // Clamp velocity to max speed
+            const currentSpeed = Math.sqrt(vx * vx + vy * vy);
+            if (currentSpeed > maxSpeed) {
+                vx = (vx / currentSpeed) * maxSpeed;
+                vy = (vy / currentSpeed) * maxSpeed;
+            }
+
+            // Move
+            if (!caughtRef.current) {
+                currentBugX += vx;
+                currentBugY += vy;
+            }
+
+            // Wall Bouncing (Elastic Collision)
+            const margin = 30;
+            if (currentBugX < margin) {
+                currentBugX = margin;
+                vx = Math.abs(vx) * 0.5; // Bounce back with some loss
+            }
+            if (currentBugX > rect.width - margin) {
+                currentBugX = rect.width - margin;
+                vx = -Math.abs(vx) * 0.5;
+            }
+            if (currentBugY < margin) {
+                currentBugY = margin;
+                vy = Math.abs(vy) * 0.5;
+            }
+            if (currentBugY > rect.height - margin) {
+                currentBugY = rect.height - margin;
+                vy = -Math.abs(vy) * 0.5;
+            }
+
+            // Check collision (Catch)
+            const catchRadius = 35; // Slightly easier catch radius
+            if (distance < catchRadius && !caughtRef.current) {
                 caughtRef.current = true; // Immediate update
                 setCaught(true); // Visual update
                 setSplatPos({ x: currentBugX, y: currentBugY }); // Freeze position for visual
@@ -227,8 +256,9 @@ const Game = () => {
                 }, 800);
             }
 
-            // Update Ref
+            // Update Refs
             bugPosRef.current = { x: currentBugX, y: currentBugY };
+            velocityRef.current = { vx, vy };
 
             // Update Render State (syncing visuals)
             setBugRenderPos({ x: currentBugX, y: currentBugY });
