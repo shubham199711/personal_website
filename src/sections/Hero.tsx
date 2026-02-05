@@ -235,7 +235,7 @@ const Hero = () => {
             I build things for the web.
           </RoleText>
           <Description variants={itemVariants}>
-            I'm a software engineer specializing in building (and occasionally designing) exceptional digital experiences. Currently, I'm focused on building accessible, human-centered products.
+            I'm a software engineer specializing in <strong>backend systems and scalable architecture</strong>. Currently, I'm focused on <strong>migrating legacy monoliths to modern microservices and building high-performance data pipelines</strong>.
           </Description>
 
           <motion.div variants={itemVariants}>
@@ -266,7 +266,7 @@ const Hero = () => {
             </a>
           </MagneticWrapper>
         </ScrollIndicator>
-      </HeroSection>
+      </HeroSection >
     </>
   );
 };

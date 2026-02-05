@@ -108,17 +108,29 @@ const Game = () => {
         return { x, y };
     };
 
-    // Update mouse position Ref immediately
-    const handleMouseMove = (e: React.MouseEvent) => {
+    // Update mouse/touch position
+    const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
         if (!containerRef.current) return;
         const rect = containerRef.current.getBoundingClientRect();
 
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        let clientX, clientY;
+
+        if ('touches' in e) {
+            clientX = e.touches[0].clientX;
+            clientY = e.touches[0].clientY;
+        } else {
+            clientX = (e as React.MouseEvent).clientX;
+            clientY = (e as React.MouseEvent).clientY;
+        }
+
+        const x = clientX - rect.left;
+        const y = clientY - rect.top;
 
         mousePosRef.current = { x, y };
         setCursorRenderPos({ x, y });
     };
+
+    const caughtRef = useRef(false); // Ref for immediate logic updates
 
     // Bug logic
     useEffect(() => {
@@ -139,7 +151,6 @@ const Game = () => {
             if (lastTime === 0) {
                 lastTime = time;
             }
-            // const deltaTime = time - lastTime;
             lastTime = time;
 
             // Unpack positions
@@ -158,7 +169,7 @@ const Game = () => {
             const speedMultiplier = 1 + (score * 0.2); // Scales faster (was 0.15)
             const moveSpeed = baseSpeed * speedMultiplier;
 
-            if (distance < safeDistance && !caught) {
+            if (distance < safeDistance && !caughtRef.current) {
                 // Normalize vector (run away)
                 const vx = dx / distance;
                 const vy = dy / distance;
@@ -174,19 +185,21 @@ const Game = () => {
                 if (currentBugY < margin) currentBugY = margin;
                 if (currentBugY > rect.height - margin) currentBugY = rect.height - margin;
 
-            } else if (!caught) {
+            } else if (!caughtRef.current) {
                 // Jitter / Wander when safe
                 currentBugX += (Math.random() - 0.5) * 5; // More jitter
                 currentBugY += (Math.random() - 0.5) * 5;
             }
 
             // Check collision (Catch) - Harder
-            if (distance < 30 && !caught) {
-                setCaught(true);
+            if (distance < 30 && !caughtRef.current) {
+                caughtRef.current = true; // Immediate update
+                setCaught(true); // Visual update
                 setSplatPos({ x: currentBugX, y: currentBugY }); // Freeze position for visual
                 setScore(s => s + 1);
 
                 setTimeout(() => {
+                    caughtRef.current = false;
                     setCaught(false);
                     // Smart Respawn
                     const newPos = spawnBug(rect, mouseX, mouseY);
@@ -205,10 +218,15 @@ const Game = () => {
 
         animationFrameId = requestAnimationFrame(gameLoop);
         return () => cancelAnimationFrame(animationFrameId);
-    }, [score, caught]); // Re-run loop when score/caught changes is okay/safe
+    }, [score]); // Removed caught from dependency as we use Ref
 
     return (
-        <GameSection ref={containerRef} onMouseMove={handleMouseMove}>
+        <GameSection
+            ref={containerRef}
+            onMouseMove={handleMove}
+            onTouchMove={handleMove}
+            style={{ touchAction: 'none' }} // Prevent scrolling on mobile
+        >
             <Title>Bug Hunter</Title>
             <Instruction style={{ opacity: score > 2 ? 0 : 1, transition: 'opacity 0.5s' }}>
                 Your cursor is YOU. Chase the bug! 🪳

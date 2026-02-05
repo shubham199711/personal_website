@@ -168,14 +168,6 @@ const About = () => {
   const springRotateX = useSpring(rotateX, springConfig);
   const springRotateY = useSpring(rotateY, springConfig);
 
-  const technologies = [
-    "JavaScript (ES6+)",
-    "React",
-    "TypeScript",
-    "Node.js",
-    "Python",
-    "AWS",
-  ];
 
   function handleMouse(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -202,20 +194,20 @@ const About = () => {
             <span>01.</span> About Me
           </SectionTitle>
           <Paragraph>
-            Hello! My name is Shubham and I enjoy creating things that live on the internet.
-            My interest in web development started back in 2019 when I decided to try editing
-            custom Tumblr themes — turns out hacking together HTML & CSS was pretty fun!
+            Hello! My name is Shubham and I enjoy building robust systems that power the internet.
+            My journey started back in <strong>2019</strong>, and while I began with frontend, I quickly discovered my passion for
+            <strong> backend engineering and distributed systems</strong>.
           </Paragraph>
           <Paragraph>
-            Fast-forward to today, and I've had the privilege of working at an
-            advertising agency, a start-up, and a huge corporation.
-            My main focus these days is building accessible, inclusive products and digital experiences.
+            Fast-forward to today, I've had the privilege of architecting solutions for a
+            <strong> HealthTech innovator</strong>, a <strong>Supply Chain risk management firm</strong>, and my own <strong>start-up</strong>.
+            My main focus these days is <strong>building scalable, event-driven microservices</strong> and optimizing data processing pipelines.
           </Paragraph>
           <Paragraph>
             Here are a few technologies I've been working with recently:
           </Paragraph>
           <TechList>
-            {technologies.map((tech, i) => (
+            {["Java 21", "Spring Boot", "Microservices", "System Design", "Docker / K8s", "AWS / Cloud"].map((tech, i) => (
               <TechItem key={i}>{tech}</TechItem>
             ))}
           </TechList>
