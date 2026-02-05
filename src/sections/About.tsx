@@ -10,7 +10,9 @@ const AboutSection = styled.section`
   position: relative;
   
   @media (max-width: 768px) {
-    padding: 100px 25px;
+    padding: 80px 25px;
+    min-height: auto;
+    display: block; /* Allow natural flow */
   }
 `;
 
@@ -49,6 +51,11 @@ const SectionTitle = styled(motion.h2)`
     height: 1px;
     margin-left: 20px;
     background: var(--glass-border);
+
+    @media (max-width: 768px) {
+      width: 100%; /* flexible width on mobile */
+      max-width: 100px; /* Limit width so it doesn't push text out */
+    }
   }
 
   span {
@@ -74,6 +81,10 @@ const TechList = styled.ul`
   margin: 20px 0 0 0;
   overflow: hidden;
   list-style: none;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr; /* Single column on very small screens */
+  }
 `;
 
 const TechItem = styled(motion.li)`
@@ -99,8 +110,10 @@ const CardWrapper = styled(motion.div)`
   justify-content: center;
   
   @media (max-width: 768px) {
-    margin-top: 50px;
+    margin-top: 40px;
     width: 100%;
+    display: flex;
+    justify-content: center;
   }
 `;
 
