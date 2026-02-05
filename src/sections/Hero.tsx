@@ -235,7 +235,7 @@ const Hero = () => {
             I build things for the web.
           </RoleText>
           <Description variants={itemVariants}>
-            I'm a software engineer specializing in <strong>backend systems and scalable architecture</strong>. Currently, I'm focused on <strong>migrating legacy monoliths to modern microservices and building high-performance data pipelines</strong>.
+            I'm a software engineer specializing in <strong>backend systems and scalable architecture</strong>. Currently, I'm focused on <strong>building highly scalable systems and high-performance data pipelines</strong>.
           </Description>
 
           <motion.div variants={itemVariants}>
