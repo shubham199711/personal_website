@@ -25,26 +25,25 @@ const GameSection = styled.section`
   }
 `;
 
+
 const Title = styled.h2`
   color: #00f3ff;
   font-size: 2.5rem;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   text-transform: uppercase;
   letter-spacing: 2px;
-  z-index: 10;
-  pointer-events: none;
-  position: absolute;
-  top: 30px;
-  left: 30px;
-  margin: 0;
+  text-align: center;
 `;
 
-const Instruction = styled.p`
+const QuoteText = styled.p`
   color: #aaa;
-  font-size: 1.2rem;
-  margin-bottom: 40px;
-  z-index: 10;
-  pointer-events: none;
+  font-size: 1.1rem;
+  font-style: italic;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 30px auto;
+  line-height: 1.6;
+  padding: 0 20px;
 `;
 
 const Score = styled.div`
@@ -59,8 +58,8 @@ const Score = styled.div`
 
 const CustomCursor = styled(motion.div)`
   position: absolute;
-  width: 60px;
-  height: 60px;
+  width: 30px; /* Reduced from 60px */
+  height: 30px;
   border-radius: 50%;
   /* background-image: url("/profile.jpeg"); Removed as requested */
   background-color: rgba(0, 243, 255, 0.1);;
@@ -69,6 +68,11 @@ const CustomCursor = styled(motion.div)`
   z-index: 20;
   box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
   border: 2px solid #00f3ff;
+  
+  @media (max-width: 768px) {
+    width: 20px; /* Even smaller on mobile */
+    height: 20px;
+  }
 `;
 
 const Bug = styled(motion.div)`
@@ -171,15 +175,31 @@ const Game = () => {
 
             if (distance < safeDistance && !caughtRef.current) {
                 // Normalize vector (run away)
-                const vx = dx / distance;
-                const vy = dy / distance;
+                let vx = dx / distance;
+                let vy = dy / distance;
+
+                // Wall Avoidance Force
+                const wallDistance = 50;
+                const avoidanceForce = 2.0; // Strong push away from walls
+
+                if (currentBugX < wallDistance) vx += avoidanceForce;
+                if (currentBugX > rect.width - wallDistance) vx -= avoidanceForce;
+                if (currentBugY < wallDistance) vy += avoidanceForce;
+                if (currentBugY > rect.height - wallDistance) vy -= avoidanceForce;
+
+                // Normalize again with avoidance force
+                const vLen = Math.sqrt(vx * vx + vy * vy);
+                if (vLen > 0) {
+                    vx /= vLen;
+                    vy /= vLen;
+                }
 
                 // Move
                 currentBugX += vx * moveSpeed;
-                currentBugY += vy * moveSpeed;
+                currentBugY += vy * moveSpeed; // Use modified vx/vy
 
-                // Wall Evasion / Bouncing
-                const margin = 40;
+                // Hard Boundary Clamp
+                const margin = 20;
                 if (currentBugX < margin) currentBugX = margin;
                 if (currentBugX > rect.width - margin) currentBugX = rect.width - margin;
                 if (currentBugY < margin) currentBugY = margin;
@@ -221,44 +241,46 @@ const Game = () => {
     }, [score]); // Removed caught from dependency as we use Ref
 
     return (
-        <GameSection
-            ref={containerRef}
-            onMouseMove={handleMove}
-            onTouchMove={handleMove}
-            style={{ touchAction: 'none' }} // Prevent scrolling on mobile
-        >
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '50px 0' }}>
             <Title>Bug Hunter</Title>
-            <Instruction style={{ opacity: score > 2 ? 0 : 1, transition: 'opacity 0.5s' }}>
-                Your cursor is YOU. Chase the bug! 🪳
-            </Instruction>
-            <Score>Score: {score}</Score>
-
-            <CustomCursor
-                style={{
-                    left: cursorRenderPos.x,
-                    top: cursorRenderPos.y,
-                    translateX: "-50%",
-                    translateY: "-50%"
-                }}
-            />
-
-            <Bug
-                animate={{
-                    left: caught ? splatPos.x : bugRenderPos.x,
-                    top: caught ? splatPos.y : bugRenderPos.y,
-                    rotate: caught ? 720 : 0,
-                    scale: caught ? 2 : 1,
-                }}
-                // Using tween for smoother continuous movement updates
-                transition={{ type: "tween", ease: "linear", duration: 0 }}
-                style={{
-                    translateX: "-50%",
-                    translateY: "-50%",
-                }}
+            <QuoteText>
+                "There is always one more bug."
+            </QuoteText>
+            <GameSection
+                ref={containerRef}
+                onMouseMove={handleMove}
+                onTouchMove={handleMove}
+                style={{ margin: '0 auto', touchAction: 'none' }} // Override margin since wrapper handles spacing
             >
-                {caught ? "💥" : "🪳"}
-            </Bug>
-        </GameSection>
+                <Score>Score: {score}</Score>
+
+                <CustomCursor
+                    style={{
+                        left: cursorRenderPos.x,
+                        top: cursorRenderPos.y,
+                        translateX: "-50%",
+                        translateY: "-50%"
+                    }}
+                />
+
+                <Bug
+                    animate={{
+                        left: caught ? splatPos.x : bugRenderPos.x,
+                        top: caught ? splatPos.y : bugRenderPos.y,
+                        rotate: caught ? 720 : 0,
+                        scale: caught ? 2 : 1,
+                    }}
+                    // Using tween for smoother continuous movement updates
+                    transition={{ type: "tween", ease: "linear", duration: 0 }}
+                    style={{
+                        translateX: "-50%",
+                        translateY: "-50%",
+                    }}
+                >
+                    {caught ? "💥" : "🪳"}
+                </Bug>
+            </GameSection>
+        </div>
     );
 };
 
