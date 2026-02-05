@@ -1,25 +1,32 @@
-import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar";
-import Contact from "./pages/Contact";
-import Home from "./pages/Home";
-import Leetcode from "./pages/Leetcode";
-import Resume from "./pages/Resume";
-import Project from "./pages/Project";
+import Hero from "./sections/Hero";
+import About from "./sections/About";
+import Projects from "./sections/Projects";
+import Experience from "./sections/Experience";
+import Skills from "./sections/Skills";
+import Contact from "./sections/Contact";
+import Game from "./sections/Game";
+import styled from "styled-components";
+
+const MainContainer = styled.main`
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+`;
 
 function App() {
   return (
-    <>
+    <MainContainer>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/resume" element={<Resume />} />
-        <Route path="/leetcode" element={<Leetcode />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/project" element={<Project />} />
-        <Route path="*" element={<Home />} />
-      </Routes>
-    </>
+      <Hero />
+      <About />
+      <Experience />
+      <Skills />
+      <Projects />
+      <Game />
+      <Contact />
+    </MainContainer>
   );
 }
 
