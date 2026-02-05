@@ -139,7 +139,7 @@ const Game = () => {
             if (lastTime === 0) {
                 lastTime = time;
             }
-            const deltaTime = time - lastTime;
+            // const deltaTime = time - lastTime;
             lastTime = time;
 
             // Unpack positions

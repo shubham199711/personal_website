@@ -5,6 +5,7 @@ import { FiArrowDown } from "react-icons/fi";
 import ParticleBackground from "../components/ParticleBackground";
 import GlitchText from "../components/GlitchText";
 import MagneticWrapper from "../components/MagneticWrapper";
+import Typewriter from "../components/Typewriter";
 
 const gradientAnimation = keyframes`
   0% { background-position: 0% 50%; }
@@ -55,6 +56,19 @@ const Spotlight = styled(motion.div)`
   background: radial-gradient(600px circle at var(--x) var(--y), rgba(185, 103, 255, 0.07), transparent 40%);
 `;
 
+const TextBackdrop = styled(motion.div)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(ellipse at center, rgba(185, 103, 255, 0.15) 0%, rgba(15, 12, 41, 0) 70%);
+  z-index: -1;
+  filter: blur(60px);
+  pointer-events: none;
+`;
+
 const HiText = styled(motion.h1)`
   color: var(--accent);
   font-family: 'Fira Code', monospace;
@@ -74,12 +88,26 @@ const NameTextContainer = styled(motion.div)`
 
 const RoleText = styled(motion.h3)`
   font-size: clamp(40px, 8vw, 80px);
-  font-weight: 700;
+  font-weight: 800;
   color: var(--text-secondary);
   line-height: 1.1;
   margin-top: 5px;
   margin-bottom: 20px;
   letter-spacing: -1px;
+  
+  /* Gradient Text Effect */
+  background: linear-gradient(90deg, #e0e6ed 0%, #b967ff 50%, #00fff9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% auto;
+  animation: shimmer 5s linear infinite;
+
+  @keyframes shimmer {
+    to {
+      background-position: 200% center;
+    }
+  }
 `;
 
 const Description = styled(motion.p)`
@@ -187,10 +215,16 @@ const Hero = () => {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          style={{ zIndex: 1, position: 'relative' }} // Ensure text is above canvas
+          style={{ zIndex: 1, position: 'relative' }}
         >
+          <TextBackdrop
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+          />
+
           <HiText variants={itemVariants}>
-            Hi, my name is
+            <Typewriter text="Hi, my name is" delay={500} speed={80} />
           </HiText>
 
           <NameTextContainer variants={itemVariants}>

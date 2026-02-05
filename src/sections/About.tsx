@@ -190,7 +190,7 @@ const About = () => {
           </SectionTitle>
           <Paragraph>
             Hello! My name is Shubham and I enjoy creating things that live on the internet.
-            My interest in web development started back in 2012 when I decided to try editing
+            My interest in web development started back in 2019 when I decided to try editing
             custom Tumblr themes — turns out hacking together HTML & CSS was pretty fun!
           </Paragraph>
           <Paragraph>

@@ -1,75 +1,89 @@
 import styled from "styled-components";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 
 const SectionContainer = styled.section`
-  max-width: 1100px; /* Increased from 800px */
+  max-width: 1200px; /* Significantly wider */
   margin: 0 auto;
-  padding: 100px 50px;
-
+  padding: 150px 50px;
+  
   @media (max-width: 768px) {
-    padding: 80px 25px;
+    padding: 100px 25px;
   }
 `;
 
 const SectionHeader = styled(motion.div)`
   display: flex;
   align-items: center;
-  margin-bottom: 50px;
+  margin-bottom: 70px;
   
   h2 {
-    font-size: clamp(30px, 5vw, 40px); /* Increased size */
-    font-weight: 600;
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 700;
     color: var(--text-primary);
     margin: 0;
     
     &::before {
       content: "02.";
-      position: relative;
-      bottom: 4px;
-      margin-right: 10px;
+      margin-right: 15px;
       color: var(--accent);
       font-family: 'Fira Code', monospace;
-      font-size: clamp(20px, 3vw, 24px); /* Increased size */
+      font-size: clamp(24px, 3vw, 32px);
       font-weight: 400;
     }
   }
   
   &::after {
     content: "";
-    display: block;
-    position: relative;
-    top: -5px;
-    width: 300px;
+    flex-grow: 1; /* Take up remaining space */
     height: 1px;
-    margin-left: 20px;
-    background-color: var(--bg-tertiary);
-
-    @media (max-width: 768px) {
-      width: 100%;
-    }
+    margin-left: 30px;
+    background-color: var(--glass-border);
+    max-width: 400px;
   }
 `;
 
 const ContentContainer = styled.div`
   display: flex;
+  gap: 50px;
+  min-height: 400px;
   
-  @media (max-width: 600px) {
+  @media (max-width: 700px) {
     flex-direction: column;
+    gap: 30px;
   }
 `;
 
 const Tabs = styled.div`
   position: relative;
-  z-index: 3;
-  width: max-content;
+  width: 250px;
+  flex-shrink: 0;
   
-  @media (max-width: 600px) {
+  @media (max-width: 700px) {
+    width: 100%;
     display: flex;
     overflow-x: auto;
-    width: 100%;
-    margin-bottom: 30px;
-    border-bottom: 1px solid var(--bg-tertiary);
+    padding-bottom: 2px;
+    border-bottom: 2px solid var(--bg-tertiary);
+  }
+`;
+
+// Glassmorphism styled active tab indicator
+const ActiveIndicator = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 110%; /* Slightly wider than tabs */
+  height: 50px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  z-index: 0;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  
+  @media (max-width: 700px) {
+    display: none; /* Hide custom indicator on mobile for simplicity, use border-bottom */
   }
 `;
 
@@ -77,52 +91,42 @@ const TabButton = styled.button<{ $active: boolean }>`
   display: flex;
   align-items: center;
   width: 100%;
-  height: 42px;
-  padding: 0 20px 2px;
-  border-left: 2px solid ${props => props.$active ? 'var(--accent)' : 'var(--bg-tertiary)'};
-  background-color: ${props => props.$active ? 'var(--bg-tertiary)' : 'transparent'};
+  height: 50px;
+  padding: 0 25px;
+  background-color: transparent;
   color: ${props => props.$active ? 'var(--accent)' : 'var(--text-secondary)'};
   font-family: 'Fira Code', monospace;
-  font-size: 13px;
+  font-size: 14px;
   text-align: left;
-  white-space: nowrap;
-  border-top: none;
-  border-right: none;
-  border-bottom: none;
+  border: none;
   cursor: pointer;
+  position: relative;
+  z-index: 1; /* Above indicator */
   transition: all 0.25s cubic-bezier(0.645,0.045,0.355,1);
 
   &:hover {
-    background-color: var(--bg-tertiary);
     color: var(--accent);
   }
 
-  @media (max-width: 600px) {
-    border-left: none;
+  @media (max-width: 700px) {
+    padding: 0 20px;
+    height: 42px;
+    white-space: nowrap;
+    width: auto;
     border-bottom: 2px solid ${props => props.$active ? 'var(--accent)' : 'transparent'};
-    background-color: transparent;
-    justify-content: center;
-    min-width: 120px;
-    
-    &:hover {
-      background-color: transparent;
-    }
+    color: ${props => props.$active ? 'var(--accent)' : 'var(--text-secondary)'};
   }
 `;
 
 const Details = styled.div`
-  margin-left: 20px;
-  
-  @media (max-width: 600px) {
-    margin-left: 0;
-  }
+  flex-grow: 1;
 `;
 
-const JobTitle = styled.h3`
+const JobTitle = styled(motion.h3)`
   margin-top: 0;
   margin-bottom: 5px;
-  font-size: 24px; /* Increased from 22px */
-  font-weight: 500;
+  font-size: 28px;
+  font-weight: 600;
   color: var(--text-primary);
 
   span {
@@ -130,14 +134,15 @@ const JobTitle = styled.h3`
   }
 `;
 
-const JobDates = styled.p`
-  margin-bottom: 25px;
+const JobDates = styled(motion.p)`
+  margin-bottom: 30px;
   color: var(--text-secondary);
   font-family: 'Fira Code', monospace;
-  font-size: 14px; /* Increased from 13px */
+  font-size: 14px;
+  letter-spacing: 0.5px;
 `;
 
-const JobDescription = styled.ul`
+const JobDescription = styled(motion.ul)`
   padding: 0;
   margin: 0;
   list-style: none;
@@ -145,15 +150,17 @@ const JobDescription = styled.ul`
   li {
     position: relative;
     padding-left: 30px;
-    margin-bottom: 12px;
-    font-size: 17px; /* Increased from 16px */
+    margin-bottom: 15px;
+    font-size: 18px;
     color: var(--text-secondary);
+    line-height: 1.6;
     
     &::before {
       content: "▹";
       position: absolute;
       left: 0;
       color: var(--accent);
+      font-size: 20px;
     }
   }
 `;
@@ -164,8 +171,8 @@ const experiences = [
     role: "Senior Full Stack Engineer",
     dates: "June 2025 - Present",
     desc: [
-      "Migrating 70+ microservice from java 8 to java 21 using AI powered tools moved timeline from year to 4 months",
-      "Created internal tools for AI agents to get latest and correct version of library in new spring boot",
+      "Migrating 70+ microservices from Java 8 to Java 21 using AI powered tools, accelerating timeline from 1 year to 4 months.",
+      "Created internal tools for AI agents to automatically resolve dependency conflicts and verify library versions in Spring Boot.",
     ]
   },
   {
@@ -173,8 +180,8 @@ const experiences = [
     role: "Senior Software Engineer",
     dates: "2023 - June 2025",
     desc: [
-      "Designed and implemented an accuracy system for ML models to monitor AI model improvements.",
-      "Developed a system for creating study cohorts and subgroups, improving core application features and reducing query generation time by 5X.",
+      "Designed and implemented an accuracy tracking system for ML models to monitor performance improvements over time.",
+      "Developed a cohort creation system for clinical studies, reducing query generation time by 5X.",
       "Implemented event-driven architecture for large dataset processing, delivering 20X speed improvement and 10X scalability."
     ]
   },
@@ -183,9 +190,9 @@ const experiences = [
     role: "Software Engineer II",
     dates: "2021 - 2023",
     desc: [
-      "Led development of 8 backend projects as the backend lead.",
-      "Automated CI/CD pipelines with Docker and GitHub Actions.",
-      "Defined and enforced coding guidelines for consistency and maintainability."
+      "Led development of 8 backend projects as the technical lead.",
+      "Automated complete CI/CD pipelines using Docker and GitHub Actions.",
+      "Defined and enforced coding guidelines for consistency and maintainability across teams."
     ]
   },
   {
@@ -193,8 +200,8 @@ const experiences = [
     role: "Founder & CEO",
     dates: "2020 - 2021",
     desc: [
-      "Built the 'Micro-habits' app based on the book Atomic Habits, achieving 100k+ downloads and 5k+ daily active users.",
-      "Led product development using Flutter for Android and iOS platforms."
+      "Built the 'Micro-habits' app based on Atomic Habits, achieving 100k+ downloads and 5k+ daily active users.",
+      "Led full-cycle product development using Flutter for cross-platform deployment."
     ]
   },
   {
@@ -202,8 +209,8 @@ const experiences = [
     role: "Software Engineer",
     dates: "2019 - 2020",
     desc: [
-      "Served as a solo front-end engineer using React and SCSS, delivering a high-quality product with positive customer reviews.",
-      "Led a front-end team on an Angular/Node.js project, ensuring project success and quality.",
+      "Served as solo front-end engineer using React and SCSS, delivering a high-quality product.",
+      "Led a front-end team on an Angular/Node.js project, ensuring successful delivery."
     ]
   }
 ];
@@ -224,6 +231,14 @@ const Experience = () => {
 
       <ContentContainer>
         <Tabs>
+          {/* Animated Background Indicator for Desktop */}
+          <ActiveIndicator
+            layoutId="activeTabIndicator"
+            initial={false}
+            animate={{ y: activeTabId * 50 }}
+            transition={{ type: "spring", stiffness: 500, damping: 30 }}
+          />
+
           {experiences.map((exp, i) => (
             <TabButton
               key={i}
@@ -236,22 +251,25 @@ const Experience = () => {
         </Tabs>
 
         <Details>
-          <motion.div
-            key={activeTabId}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <JobTitle>
-              {experiences[activeTabId].role} <span>@ {experiences[activeTabId].company}</span>
-            </JobTitle>
-            <JobDates>{experiences[activeTabId].dates}</JobDates>
-            <JobDescription>
-              {experiences[activeTabId].desc.map((item, i) => (
-                <li key={i}>{item}</li>
-              ))}
-            </JobDescription>
-          </motion.div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTabId}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+            >
+              <JobTitle>
+                {experiences[activeTabId].role} <span>@ {experiences[activeTabId].company}</span>
+              </JobTitle>
+              <JobDates>{experiences[activeTabId].dates}</JobDates>
+              <JobDescription>
+                {experiences[activeTabId].desc.map((item, i) => (
+                  <li key={i}>{item}</li>
+                ))}
+              </JobDescription>
+            </motion.div>
+          </AnimatePresence>
         </Details>
       </ContentContainer>
     </SectionContainer>
