@@ -293,9 +293,9 @@ const Game = () => {
             <Title>
                 Bug Hunter
                 <SantoryuIcon>
-                    <GiKatana style={{ transform: 'rotate(0deg)', zIndex: 1 }} />
-                    <GiKatana style={{ transform: 'rotate(60deg)' }} />
-                    <GiKatana style={{ transform: 'rotate(-60deg)' }} />
+                    <GiKatana style={{ transform: 'rotate(-45deg)', zIndex: 1, filter: 'drop-shadow(0 0 2px #2ecc71)' }} />
+                    <GiKatana style={{ transform: 'rotate(0deg)', opacity: 0.8 }} />
+                    <GiKatana style={{ transform: 'rotate(-90deg)', opacity: 0.8 }} />
                 </SantoryuIcon>
             </Title>
             <QuoteText>
