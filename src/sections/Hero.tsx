@@ -232,7 +232,7 @@ const Hero = () => {
           </NameTextContainer>
 
           <RoleText variants={itemVariants}>
-            I build things for the web.
+            I build things for fun.
           </RoleText>
           <Description variants={itemVariants}>
             I'm a software engineer specializing in <strong>backend systems and scalable architecture</strong>. Currently, I'm focused on <strong>building highly scalable systems and high-performance data pipelines</strong>.
